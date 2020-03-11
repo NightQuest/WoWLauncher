@@ -7,6 +7,9 @@ public:
 	mainWindow(const std::wstring& className);
 	~mainWindow() override;
 
+	LRESULT onClose() override;
+	LRESULT onDestroy() override;
+
 	bool create(const std::wstring& title, uint32_t width, uint32_t height) override;
 
 private:
