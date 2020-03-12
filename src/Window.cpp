@@ -36,9 +36,8 @@ const uint32_t Window::getDPI() const
 	return dpi;
 }
 
-const SIZE Window::getCurrentMonitorWorkarea() const
+const RECT Window::getCurrentMonitorRect() const
 {
-	SIZE size = {};
 	HMONITOR hMonitor;
 	MONITORINFO mi;
 
@@ -47,12 +46,9 @@ const SIZE Window::getCurrentMonitorWorkarea() const
 	hMonitor = ::MonitorFromWindow(windowHandle, MONITOR_DEFAULTTONEAREST);
 	mi.cbSize = sizeof(mi);
 	if( ::GetMonitorInfo(hMonitor, &mi) )
-	{
-		size.cx = mi.rcWork.right;
-		size.cy = mi.rcWork.bottom;
-	}
+		return mi.rcWork;
 
-	return size;
+	return {};
 }
 
 LRESULT Window::windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -72,7 +68,7 @@ LRESULT Window::windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return onShow(static_cast<BOOL>(wParam), static_cast<UINT>(lParam));
 
 	case WM_WINDOWPOSCHANGING:
-		return onPosChanging(reinterpret_cast<WINDOWPOS*>(lParam));
+		return onPosChanging(reinterpret_cast<LPWINDOWPOS>(lParam));
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);

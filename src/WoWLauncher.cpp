@@ -10,7 +10,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	if( !window.create(L"WoW Launcher", windowWidth, windowHeight) )
 	{
 		MessageBox(NULL, L"Window Creation Failed!", L"Error!", MB_ICONERROR | MB_OK);
-		return 0;
+		return EXIT_FAILURE;
 	}
 
 	// Display our window

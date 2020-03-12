@@ -1,7 +1,9 @@
 #include "preCompiled.h"
 
+const uint32_t snappingThreshold = 10;
+
 mainWindow::mainWindow(const std::wstring& className)
-	: Window(), className(className), windowHeight(0), windowWidth(0)
+	: Window(), className(className), windowHeight(0), windowWidth(0), recentlyCreated(false)
 {
 }
 
@@ -9,21 +11,42 @@ mainWindow::~mainWindow()
 {
 }
 
+// Handle the onCreate event
+// Returns: FALSE because we're handling it
+LRESULT mainWindow::onCreate(LPCREATESTRUCT lpCreate)
+{
+	recentlyCreated = true;
+	return FALSE;
+}
+
 // Handle the onShow event - scale app window, and create children.
 // Returns: FALSE because we're handling it
 LRESULT mainWindow::onShow(BOOL beingShown, UINT status)
 {
+	if( recentlyCreated )
+	{
+		recentlyCreated = false;
+		return onFirstShow(beingShown, status);
+	}
+
+	return FALSE;
+}
+
+LRESULT mainWindow::onFirstShow(BOOL beingShown, UINT status)
+{
 	uint32_t dpi = getDPI();
 	RECT rcWindow = {};
-	SIZE workingSize = getCurrentMonitorWorkarea();
+	RECT workingSize = getCurrentMonitorRect();
 
 	// Adjust our window size for DPI
 	::GetWindowRect(windowHandle, &rcWindow);
 	rcWindow.right = MulDiv(windowWidth, dpi, 96);
 	rcWindow.bottom = MulDiv(windowHeight, dpi, 96);
-	rcWindow.left = (workingSize.cx - rcWindow.right) / 2;
-	rcWindow.top = (workingSize.cy - rcWindow.bottom) / 2;
+	rcWindow.left = ((workingSize.right - workingSize.left) - rcWindow.right) / 2;
+	rcWindow.top = ((workingSize.bottom - workingSize.top) - rcWindow.bottom) / 2;
 	::SetWindowPos(windowHandle, nullptr, rcWindow.left, rcWindow.top, rcWindow.right, rcWindow.bottom, SWP_NOZORDER | SWP_NOACTIVATE);
+
+	// Create our controls
 
 	return FALSE;
 }
@@ -41,6 +64,33 @@ LRESULT mainWindow::onClose()
 LRESULT mainWindow::onDestroy()
 {
 	::PostQuitMessage(EXIT_SUCCESS);
+	return FALSE;
+}
+
+// Handle the position changing event
+// Returns: FALSE because we're handling it
+LRESULT mainWindow::onPosChanging(LPWINDOWPOS windowPos)
+{
+	RECT workingSize = getCurrentMonitorRect();
+	if( workingSize.right == 0 )
+		return TRUE;
+
+	// Snap to left
+	if( ::abs(windowPos->x - workingSize.left) <= snappingThreshold )
+		windowPos->x = workingSize.left;
+
+	// Snap to right
+	else if( ::abs((windowPos->x + windowPos->cx) - workingSize.right) <= snappingThreshold )
+		windowPos->x = (workingSize.right - windowPos->cx);
+
+	// Snap to top
+	if( ::abs(windowPos->y - workingSize.top) <= snappingThreshold )
+		windowPos->y = workingSize.top;
+
+	// Snap to bottom
+	else if( ::abs((windowPos->y + windowPos->cy) - workingSize.bottom) <= snappingThreshold )
+		windowPos->y = (workingSize.bottom - windowPos->cy);
+
 	return FALSE;
 }
 
