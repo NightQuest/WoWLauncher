@@ -8,6 +8,8 @@ public:
 
 	// Utility
 	const HWND getHandle() const { return windowHandle; }
+	const uint32_t getDPI() const;
+	const SIZE getCurrentMonitorWorkarea() const;
 
 	// easy-access to API
 	BOOL Show(int nShowCmd) { return ::ShowWindow(windowHandle, nShowCmd); }

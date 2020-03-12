@@ -14,6 +14,47 @@ Window::~Window()
 	}
 }
 
+const uint32_t Window::getDPI() const
+{
+	uint32_t dpi = 96;
+
+	if( !windowHandle )
+		return dpi;
+
+	DPI_AWARENESS dpiAwareness = ::GetAwarenessFromDpiAwarenessContext(::GetThreadDpiAwarenessContext());
+	switch( dpiAwareness )
+	{
+	case DPI_AWARENESS::DPI_AWARENESS_SYSTEM_AWARE:
+		dpi = GetDpiForSystem();
+		break;
+
+	case DPI_AWARENESS::DPI_AWARENESS_PER_MONITOR_AWARE:
+		dpi = GetDpiForWindow(windowHandle);
+		break;
+	}
+
+	return dpi;
+}
+
+const SIZE Window::getCurrentMonitorWorkarea() const
+{
+	SIZE size = {};
+	HMONITOR hMonitor;
+	MONITORINFO mi;
+
+	// Grab information about our closest monitor, so we know the working space
+	// For multi-monitor support, we use this instead of SystemParametersInfo(SPI_GETWORKAREA, 0, &rect, 0);
+	hMonitor = ::MonitorFromWindow(windowHandle, MONITOR_DEFAULTTONEAREST);
+	mi.cbSize = sizeof(mi);
+	if( ::GetMonitorInfo(hMonitor, &mi) )
+	{
+		size.cx = mi.rcWork.right;
+		size.cy = mi.rcWork.bottom;
+	}
+
+	return size;
+}
+
 LRESULT Window::windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch( msg )

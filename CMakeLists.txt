@@ -52,5 +52,8 @@ set(all_source_files
 	${source_files})
 
 add_executable(WoWLauncher WIN32 ${all_source_files})
+if(MSVC)
+	set_property(TARGET WoWLauncher PROPERTY VS_DPI_AWARE "PerMonitor")
+endif()
 
 install(TARGETS WoWLauncher RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})

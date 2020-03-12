@@ -1,10 +1,13 @@
 #include "preCompiled.h"
 
+const uint32_t windowHeight = 415;
+const uint32_t windowWidth = 430;
+
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nShowCmd)
 {
 	// Create our window
 	mainWindow window(L"WoWLauncherApp");
-	if( !window.create(L"WoW Launcher", 422, 405) )
+	if( !window.create(L"WoW Launcher", windowWidth, windowHeight) )
 	{
 		MessageBox(NULL, L"Window Creation Failed!", L"Error!", MB_ICONERROR | MB_OK);
 		return 0;

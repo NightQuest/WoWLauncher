@@ -1,12 +1,31 @@
 #include "preCompiled.h"
 
 mainWindow::mainWindow(const std::wstring& className)
-	: Window(), className(className)
+	: Window(), className(className), windowHeight(0), windowWidth(0)
 {
 }
 
 mainWindow::~mainWindow()
 {
+}
+
+// Handle the onShow event - scale app window, and create children.
+// Returns: FALSE because we're handling it
+LRESULT mainWindow::onShow(BOOL beingShown, UINT status)
+{
+	uint32_t dpi = getDPI();
+	RECT rcWindow = {};
+	SIZE workingSize = getCurrentMonitorWorkarea();
+
+	// Adjust our window size for DPI
+	::GetWindowRect(windowHandle, &rcWindow);
+	rcWindow.right = MulDiv(windowWidth, dpi, 96);
+	rcWindow.bottom = MulDiv(windowHeight, dpi, 96);
+	rcWindow.left = (workingSize.cx - rcWindow.right) / 2;
+	rcWindow.top = (workingSize.cy - rcWindow.bottom) / 2;
+	::SetWindowPos(windowHandle, nullptr, rcWindow.left, rcWindow.top, rcWindow.right, rcWindow.bottom, SWP_NOZORDER | SWP_NOACTIVATE);
+
+	return FALSE;
 }
 
 // Handle the close event
@@ -51,7 +70,7 @@ bool mainWindow::create(const std::wstring& title, uint32_t width, uint32_t heig
 
 	// Convert from client area to window size
 	DWORD style = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
-	//DWORD style = 0;
+	//DWORD style = 0; // Get rid of the titlebar buttons
 	RECT windowSize;
 	windowSize.right = width;
 	windowSize.bottom = height;
@@ -67,6 +86,9 @@ bool mainWindow::create(const std::wstring& title, uint32_t width, uint32_t heig
 
 	if( !windowHandle )
 		return false;
+
+	windowHeight = height;
+	windowWidth = width;
 
 	// Without this, we still have a titlebar
 	//SetWindowLongPtr(windowHandle, GWL_STYLE, 0L);
