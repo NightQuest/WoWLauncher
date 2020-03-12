@@ -23,6 +23,7 @@ public:
 	virtual LRESULT onClose() { return TRUE; }
 	virtual LRESULT onShow(BOOL beingShown, UINT status) { UNREFERENCED_PARAMETER(beingShown); UNREFERENCED_PARAMETER(status); return TRUE; }
 	virtual LRESULT onPosChanging(LPWINDOWPOS windowPos) { UNREFERENCED_PARAMETER(windowPos); return TRUE; }
+	virtual LRESULT onPosChanged(LPWINDOWPOS windowPos) { UNREFERENCED_PARAMETER(windowPos); return TRUE; }
 	virtual LRESULT onVKeyToItem(HWND hListBox, uint32_t keyCode, uint32_t caretPosition) { UNREFERENCED_PARAMETER(hListBox); UNREFERENCED_PARAMETER(keyCode); UNREFERENCED_PARAMETER(caretPosition); return TRUE; }
 	virtual LRESULT onCTLColorStatic(HDC hdc, HWND hwnd) { UNREFERENCED_PARAMETER(hdc); UNREFERENCED_PARAMETER(hwnd); return FALSE; }
 

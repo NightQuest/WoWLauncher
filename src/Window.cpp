@@ -70,6 +70,9 @@ LRESULT Window::windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_WINDOWPOSCHANGING:
 		return onPosChanging(reinterpret_cast<LPWINDOWPOS>(lParam));
 
+	case WM_WINDOWPOSCHANGED:
+		return onPosChanged(reinterpret_cast<LPWINDOWPOS>(lParam));
+
 	case WM_VKEYTOITEM:
 		return onVKeyToItem(reinterpret_cast<HWND>(lParam), LOWORD(wParam), HIWORD(wParam));
 
