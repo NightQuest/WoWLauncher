@@ -69,6 +69,12 @@ LRESULT Window::windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_WINDOWPOSCHANGING:
 		return onPosChanging(reinterpret_cast<LPWINDOWPOS>(lParam));
+
+	case WM_VKEYTOITEM:
+		return onVKeyToItem(reinterpret_cast<HWND>(lParam), LOWORD(wParam), HIWORD(wParam));
+
+	case WM_CTLCOLORSTATIC:
+		return onCTLColorStatic(reinterpret_cast<HDC>(wParam), reinterpret_cast<HWND>(lParam));
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
