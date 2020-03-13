@@ -15,5 +15,6 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 #include "resource.h"
 
+#include "Registry.h"
 #include "Window.h"
 #include "mainWindow.h"

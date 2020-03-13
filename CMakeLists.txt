@@ -26,6 +26,7 @@ ENDMACRO(ADD_MSVC_PRECOMPILED_HEADER)
 set(header_files
 	src/Window.h
 	src/mainWindow.h
+	src/Registry.h
 	src/resource.h)
 
 set(res_files
@@ -36,6 +37,7 @@ set(res_files
 set(source_files
 	src/Window.cpp
 	src/mainWindow.cpp
+	src/Registry.cpp
 	src/WoWLauncher.cpp)
 
 if(MSVC)

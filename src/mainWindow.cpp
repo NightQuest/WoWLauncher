@@ -137,6 +137,7 @@ bool mainWindow::create(const std::wstring& title, uint32_t width, uint32_t heig
 	if( !windowHandle )
 		return false;
 
+	// Save our width & height for DPI scaling
 	windowHeight = height;
 	windowWidth = width;
 
