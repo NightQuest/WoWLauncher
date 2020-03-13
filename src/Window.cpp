@@ -76,6 +76,17 @@ LRESULT Window::windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_VKEYTOITEM:
 		return onVKeyToItem(reinterpret_cast<HWND>(lParam), LOWORD(wParam), HIWORD(wParam));
 
+	case WM_COMMAND:
+		if( HIWORD(wParam) == 0 )
+			return onCommandMenu(LOWORD(wParam));
+		else if( HIWORD(wParam) == 1 )
+			return onCommandAccel(LOWORD(wParam));
+		else
+			return onCommandControl(LOWORD(wParam), reinterpret_cast<HWND>(lParam), HIWORD(wParam));
+
+	case WM_MENUCOMMAND:
+		return onMenuCommand(reinterpret_cast<HMENU>(lParam), wParam);
+
 	case WM_CTLCOLORSTATIC:
 		return onCTLColorStatic(reinterpret_cast<HDC>(wParam), reinterpret_cast<HWND>(lParam));
 	}

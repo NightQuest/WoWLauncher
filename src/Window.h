@@ -25,6 +25,10 @@ public:
 	virtual LRESULT onPosChanging(LPWINDOWPOS windowPos) { UNREFERENCED_PARAMETER(windowPos); return TRUE; }
 	virtual LRESULT onPosChanged(LPWINDOWPOS windowPos) { UNREFERENCED_PARAMETER(windowPos); return TRUE; }
 	virtual LRESULT onVKeyToItem(HWND hListBox, uint32_t keyCode, uint32_t caretPosition) { UNREFERENCED_PARAMETER(hListBox); UNREFERENCED_PARAMETER(keyCode); UNREFERENCED_PARAMETER(caretPosition); return TRUE; }
+	virtual LRESULT onCommandMenu(DWORD menu) { UNREFERENCED_PARAMETER(menu); return TRUE; }
+	virtual LRESULT onCommandAccel(DWORD accel) { UNREFERENCED_PARAMETER(accel); return TRUE; }
+	virtual LRESULT onCommandControl(DWORD controlID, HWND controlHandle, DWORD notificationCode) { UNREFERENCED_PARAMETER(controlID); UNREFERENCED_PARAMETER(controlHandle); UNREFERENCED_PARAMETER(notificationCode); return TRUE; }
+	virtual LRESULT onMenuCommand(HMENU menuHandle, DWORD selectedIndex) { UNREFERENCED_PARAMETER(menuHandle); UNREFERENCED_PARAMETER(selectedIndex); return TRUE; }
 	virtual LRESULT onCTLColorStatic(HDC hdc, HWND hwnd) { UNREFERENCED_PARAMETER(hdc); UNREFERENCED_PARAMETER(hwnd); return FALSE; }
 
 	// Pure virtuals
