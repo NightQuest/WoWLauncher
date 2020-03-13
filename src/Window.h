@@ -28,11 +28,7 @@ public:
 	virtual LRESULT onCTLColorStatic(HDC hdc, HWND hwnd) { UNREFERENCED_PARAMETER(hdc); UNREFERENCED_PARAMETER(hwnd); return FALSE; }
 
 	// Pure virtuals
-#ifdef UNICODE
 	virtual bool create(const std::wstring& title, uint32_t width, uint32_t height) = 0;
-#else
-	virtual bool create(const std::string& title, uint32_t width, uint32_t height) = 0;
-#endif
 
 	// Event procs
 	virtual LRESULT windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
