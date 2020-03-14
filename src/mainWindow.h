@@ -7,6 +7,8 @@ public:
 	mainWindow(const std::wstring& className);
 	~mainWindow() override;
 
+	void scaleToDPI(uint32_t dpi);
+
 	LRESULT onCreate(LPCREATESTRUCT lpCreate) override;
 	LRESULT onDestroy() override;
 	LRESULT onClose() override;
@@ -24,7 +26,7 @@ private:
 	uint32_t windowHeight;
 	bool recentlyCreated;
 
-	std::unordered_map<DWORD, ChildWindow*> children;
+	std::unordered_map<DWORD, ChildWindow> children;
 };
 
 enum IDCs

@@ -1,7 +1,7 @@
 #include "preCompiled.h"
 
 ChildWindow::ChildWindow()
-	: windowHandle(0), windowID(0), parentWindow(nullptr)
+	: windowHandle(0), windowID(0), hInstance(0), parentWindow(nullptr), windowWidth(0), windowHeight(0)
 {
 }
 
@@ -15,14 +15,31 @@ bool ChildWindow::create(DWORD dwExStyle, const std::wstring& className, const s
 		return false;
 
 	windowHandle = ::CreateWindowEx(dwExStyle, className.c_str(), windowName.c_str(), dwStyle, x, y, width, height, parent->getHandle(), reinterpret_cast<HMENU>(ID), hInst, lpParam);
-	if( windowHandle )
-	{
-		windowID = ID;
-		hInstance = hInst;
-		parentWindow = parent;
+	if( !windowHandle )
+		return false;
 
-		return true;
-	}
+	windowID = ID;
+	hInstance = hInst;
+	parentWindow = parent;
 
-	return false;
+	windowWidth = width;
+	windowHeight = height;
+
+	return true;
+}
+
+void ChildWindow::scaleToDPI(uint32_t dpi)
+{
+	RECT rect = {};
+	::GetWindowRect(windowHandle, &rect);
+
+	POINT rXY = { rect.left, rect.top };
+	::ScreenToClient(parentWindow->getHandle(), &rXY);
+
+	::SetWindowPos(windowHandle, nullptr,
+		::MulDiv(rXY.x, dpi, 96),
+		::MulDiv(rXY.y, dpi, 96),
+		::MulDiv(windowWidth, dpi, 96),
+		::MulDiv(windowHeight, dpi, 96),
+		SWP_NOZORDER | SWP_NOACTIVATE);
 }
