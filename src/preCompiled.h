@@ -3,6 +3,7 @@
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <windowsx.h>
 
 #include <commctrl.h>
 #pragma comment(lib,"comctl32.lib")
@@ -12,6 +13,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 
 #include <string>
+#include <unordered_map>
 
 #include "resource.h"
 
