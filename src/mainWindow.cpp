@@ -143,24 +143,7 @@ LRESULT mainWindow::onFirstShow(BOOL beingShown, UINT status)
 
 	// Now DPI scale the children
 	for( auto child : children )
-	{
 		child.second.scaleToDPI(dpi);
-
-		// Limit the width of statics to their text width
-		if( child.first == IDC_NAME_STATIC ||
-			child.first == IDC_INSTALL_STATIC ||
-			child.first == IDC_COMMANDLINE_STATIC ||
-			child.first == IDC_REALM_STATIC ||
-			child.first == IDC_DESCRIPTION_STATIC )
-		{
-			HDC hdc = ::GetDC(child.second.getHandle());
-			wchar_t text[MAX_PATH] = {};
-			int count = GetWindowText(child.second.getHandle(), text, MAX_PATH);
-			SIZE bounds;
-			::GetTextExtentPoint32(hdc, text, count, &bounds);
-			::ReleaseDC(child.second.getHandle(), hdc);
-		}
-	}
 
 	// Now set their fonts
 	auto hFontOld = reinterpret_cast<HFONT>(::SendMessage(children[IDC_NAME_STATIC].getHandle(), WM_GETFONT, 0, 0));
