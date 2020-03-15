@@ -15,8 +15,8 @@ void mainWindow::scaleToDPI(uint32_t dpi)
 {
 	RECT rect = {};
 	::GetWindowRect(windowHandle, &rect);
-	rect.right = ::MulDiv(windowWidth, dpi, 96);
-	rect.bottom = ::MulDiv(windowHeight, dpi, 96);
+	rect.right = ::MulDiv(windowWidth, dpi, USER_DEFAULT_SCREEN_DPI);
+	rect.bottom = ::MulDiv(windowHeight, dpi, USER_DEFAULT_SCREEN_DPI);
 	rect.left -= rect.right - windowWidth;
 	rect.top -= rect.bottom - windowHeight;
 	::SetWindowPos(windowHandle, nullptr, rect.left, rect.top, rect.right, rect.bottom, SWP_NOZORDER | SWP_NOACTIVATE);

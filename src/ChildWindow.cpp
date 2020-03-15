@@ -37,9 +37,9 @@ void ChildWindow::scaleToDPI(uint32_t dpi)
 	::ScreenToClient(parentWindow->getHandle(), &rXY);
 
 	::SetWindowPos(windowHandle, nullptr,
-		::MulDiv(rXY.x, dpi, 96),
-		::MulDiv(rXY.y, dpi, 96),
-		::MulDiv(windowWidth, dpi, 96),
-		::MulDiv(windowHeight, dpi, 96),
+		::MulDiv(rXY.x, dpi, USER_DEFAULT_SCREEN_DPI),
+		::MulDiv(rXY.y, dpi, USER_DEFAULT_SCREEN_DPI),
+		::MulDiv(windowWidth, dpi, USER_DEFAULT_SCREEN_DPI),
+		::MulDiv(windowHeight, dpi, USER_DEFAULT_SCREEN_DPI),
 		SWP_NOZORDER | SWP_NOACTIVATE);
 }
