@@ -89,6 +89,9 @@ LRESULT Window::windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CTLCOLORSTATIC:
 		return onCTLColorStatic(reinterpret_cast<HDC>(wParam), reinterpret_cast<HWND>(lParam));
+
+	case WM_DPICHANGED:
+		return onDPIChanged(HIWORD(wParam), reinterpret_cast<LPRECT>(lParam));
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);

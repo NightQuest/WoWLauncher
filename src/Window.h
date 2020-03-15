@@ -30,6 +30,7 @@ public:
 	virtual LRESULT onCommandControl(DWORD controlID, HWND controlHandle, DWORD notificationCode) { UNREFERENCED_PARAMETER(controlID); UNREFERENCED_PARAMETER(controlHandle); UNREFERENCED_PARAMETER(notificationCode); return TRUE; }
 	virtual LRESULT onMenuCommand(HMENU menuHandle, DWORD selectedIndex) { UNREFERENCED_PARAMETER(menuHandle); UNREFERENCED_PARAMETER(selectedIndex); return TRUE; }
 	virtual LRESULT onCTLColorStatic(HDC hdc, HWND hwnd) { UNREFERENCED_PARAMETER(hdc); UNREFERENCED_PARAMETER(hwnd); return FALSE; }
+	virtual LRESULT onDPIChanged(uint32_t newDPI, LPRECT newScale) { UNREFERENCED_PARAMETER(newDPI); UNREFERENCED_PARAMETER(newScale); return TRUE; }
 
 	// Pure virtuals
 	virtual bool create(const std::wstring& title, uint32_t width, uint32_t height) = 0;
