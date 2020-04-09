@@ -28,6 +28,7 @@ set(header_files
 	src/mainWindow.h
 	src/ChildWindow.h
 	src/Registry.h
+	src/Program.h
 	src/resource.h)
 
 set(res_files
@@ -40,6 +41,7 @@ set(source_files
 	src/mainWindow.cpp
 	src/ChildWindow.cpp
 	src/Registry.cpp
+	src/Program.cpp
 	src/WoWLauncher.cpp)
 
 if(MSVC)
